@@ -1,0 +1,7 @@
+target/
+.env
+.env.example
+uploads/
+.mvn/wrapper/maven-wrapper.jar
+*.iml
+.idea/
