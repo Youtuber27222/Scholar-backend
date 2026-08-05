@@ -1,0 +1,71 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+
+spring:
+  config:
+    import:
+      - optional:file:.env.example[.properties]
+      - optional:file:.env[.properties]
+  application:
+    name: scholarmatch-api
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:false}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:false}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-ttl-minutes: 15
+    refresh-token-ttl-days: 30
+  cors:
+    allowed-origin: ${CORS_ORIGIN:*}
+  uploads:
+    root: ${UPLOADS_ROOT:uploads}
+  mail:
+    mode: ${MAIL_MODE:log}
+    from: ${MAIL_FROM:no-reply@scholarmatch.local}
+    sendgrid:
+      api-key: ${SENDGRID_API_KEY:}
+      api-url: ${SENDGRID_API_URL:https://api.sendgrid.com/v3/mail/send}
+  frontend:
+    deep-link-scheme: ${FRONTEND_DEEP_LINK_SCHEME:scholarmatch}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  health:
+    mail:
+      enabled: false
